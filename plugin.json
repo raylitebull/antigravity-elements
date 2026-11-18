@@ -1,0 +1,18 @@
+{
+  "name": "elements",
+  "displayName": "Elements",
+  "description": "Pick your agent model from a periodic table. Element-named models (Hydrogen, Argon, Carbon...) sit in their real spots, weighed by live API price or benchmark score, and new ones appear as Antigravity adds them.",
+  "logo": "assets/logo.svg",
+  "version": "1.2.0",
+  "author": {
+    "name": "raylitebull",
+    "url": "https://github.com/raylitebull"
+  },
+  "homepage": "https://github.com/raylitebull/antigravity-elements",
+  "repository": "https://github.com/raylitebull/antigravity-elements",
+  "suggestedPrompts": [
+    "Open Elements",
+    "Which element models do I have quota left on?",
+    "Start a new chat on Gemini 4 Argon (High)"
+  ]
+}

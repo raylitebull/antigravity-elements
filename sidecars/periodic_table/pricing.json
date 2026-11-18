@@ -1,0 +1,59 @@
+{
+  "_readme": "API list prices in USD per 1M tokens, used as each element's 'atomic mass' (output price). Rules match model labels; the longest matching 'match' wins. Edit freely when prices change.",
+  "asOf": "2026-11-18",
+  "models": [
+    {
+      "match": "Claude Opus 5.5",
+      "input": 4,
+      "output": 20,
+      "verified": true,
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing"
+    },
+    {
+      "match": "Gemini 4 Argon",
+      "input": 2,
+      "output": 10,
+      "verified": false,
+      "note": "Third-party sources say this rises to $4 / $20 on 2026-12-01.",
+      "source": "https://www.morphllm.com/gemini-api-pricing"
+    },
+    {
+      "match": "Gemini 4 Carbon",
+      "input": 2,
+      "output": 10,
+      "verified": false,
+      "note": "Only two third-party sources list a price.",
+      "source": "https://benchlm.ai/google/api-pricing"
+    },
+    {
+      "match": "Claude Sonnet 5.5",
+      "input": 2,
+      "output": 10,
+      "verified": false,
+      "source": "https://aicybr.com/blog/claude-sonnet-5-5-pricing-benchmarks-api"
+    },
+    {
+      "match": "Gemini 4 Hydrogen",
+      "input": 1.5,
+      "output": 7.5,
+      "verified": false,
+      "note": "Only two third-party sources list a price.",
+      "source": "https://techjacksolutions.com/ai-tools/google-gemini/gemini-4-pricing-and-api/"
+    },
+    {
+      "match": "Gemini 3.8 Flash",
+      "input": 0.75,
+      "output": 3.75,
+      "verified": false,
+      "note": "Introductory rate through 2026-12-31.",
+      "source": "https://www.mindstudio.ai/blog/gemini-3-8-flash-pricing"
+    },
+    {
+      "match": "GPT-OSS 120B",
+      "input": 0.09,
+      "output": 0.36,
+      "verified": false,
+      "source": "https://www.getmaxim.ai/bifrost/llm-cost-calculator/provider/vertex_ai/model/gpt-oss-120b-maas"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+# Local data written when the sidecar runs outside Antigravity (may hold your API key)
+.data/
+aa_key.txt
+aa_cache.json

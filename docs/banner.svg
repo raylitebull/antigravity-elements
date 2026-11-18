@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-label="Elements: a periodic table of AI models for Google Antigravity">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0b0f"/>
+      <stop offset="1" stop-color="#14141c"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.78" cy="0.45" r="0.55">
+      <stop offset="0" stop-color="#a142f4" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#a142f4" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <rect x="2" y="2" width="30" height="30" rx="5" fill="none" stroke="#ffffff" stroke-opacity="0.045"/>
+    </pattern>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <style>
+      .t { font-family: "Google Sans", "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif; }
+      .z { font-size: 15px; font-weight: 600; fill-opacity: .75; }
+      .sym { font-size: 58px; font-weight: 800; }
+      .nm { font-size: 14px; font-weight: 600; }
+      .ms { font-size: 15px; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="420" rx="28" fill="url(#bg)"/>
+  <rect width="1280" height="420" rx="28" fill="url(#grid)"/>
+  <rect width="1280" height="420" rx="28" fill="url(#glow)"/>
+
+  <!-- Title -->
+  <g class="t">
+    <text x="72" y="148" font-size="22" font-weight="600" fill="#8ab4f8" letter-spacing="3">GOOGLE ANTIGRAVITY PLUGIN</text>
+    <text x="68" y="236" font-size="96" font-weight="800" fill="#ffffff" letter-spacing="-2">Elements</text>
+    <text x="72" y="284" font-size="26" fill="#bdc1c6">A periodic table of AI models.</text>
+    <text x="72" y="320" font-size="26" fill="#bdc1c6">Pick, weigh and launch: choose your element.</text>
+  </g>
+
+  <!-- Hydrogen -->
+  <g transform="translate(690 96)">
+    <rect x="6" y="10" width="150" height="160" rx="18" fill="#34a853" opacity="0.35" filter="url(#soft)"/>
+    <rect width="160" height="172" rx="18" fill="#10261a" stroke="#34a853" stroke-width="3"/>
+    <g class="t">
+      <text x="16" y="30" class="z" fill="#ffffff">1</text>
+      <text x="80" y="102" text-anchor="middle" class="sym" fill="#81c995">H</text>
+      <text x="80" y="128" text-anchor="middle" class="nm" fill="#e8eaed">Hydrogen</text>
+      <text x="80" y="152" text-anchor="middle" class="ms" fill="#81c995">$7.50</text>
+    </g>
+    <rect x="0" y="166" width="58" height="6" rx="3" fill="#f9ab00"/>
+  </g>
+
+  <!-- Carbon (locked) -->
+  <g transform="translate(870 152)">
+    <rect width="160" height="172" rx="18" fill="#0f1f15" stroke="#34a853" stroke-width="3" stroke-dasharray="10 7"/>
+    <g class="t">
+      <text x="16" y="30" class="z" fill="#ffffff">6</text>
+      <text x="80" y="102" text-anchor="middle" class="sym" fill="#81c995" fill-opacity="0.7">C</text>
+      <text x="80" y="128" text-anchor="middle" class="nm" fill="#e8eaed">Carbon</text>
+      <text x="80" y="152" text-anchor="middle" class="ms" fill="#81c995">$10</text>
+    </g>
+  </g>
+
+  <!-- Argon (heaviest) -->
+  <g transform="translate(1050 96)">
+    <rect x="6" y="10" width="150" height="160" rx="18" fill="#a142f4" opacity="0.45" filter="url(#soft)"/>
+    <rect width="160" height="172" rx="18" fill="#22133a" stroke="#a142f4" stroke-width="3"/>
+    <g class="t">
+      <text x="16" y="30" class="z" fill="#ffffff">18</text>
+      <text x="140" y="34" text-anchor="end" font-size="24" fill="#fbbc04">★</text>
+      <text x="80" y="102" text-anchor="middle" class="sym" fill="#d7aefb">Ar</text>
+      <text x="80" y="128" text-anchor="middle" class="nm" fill="#e8eaed">Argon</text>
+      <text x="80" y="152" text-anchor="middle" class="ms" fill="#d7aefb">$10</text>
+    </g>
+    <rect x="0" y="166" width="160" height="6" rx="3" fill="#a142f4"/>
+  </g>
+
+  <!-- AgY easter egg -->
+  <g class="t" transform="translate(72 352)">
+    <rect width="38" height="38" rx="7" fill="none" stroke="#9aa0a6" stroke-opacity="0.5"/>
+    <text x="19" y="26" text-anchor="middle" font-size="17" font-weight="700" fill="#e8eaed">Ag</text>
+    <rect x="44" width="38" height="38" rx="7" fill="none" stroke="#9aa0a6" stroke-opacity="0.5"/>
+    <text x="63" y="26" text-anchor="middle" font-size="17" font-weight="700" fill="#e8eaed">Y</text>
+    <text x="96" y="25" font-size="15" fill="#9aa0a6">silver + yttrium = agy</text>
+  </g>
+</svg>

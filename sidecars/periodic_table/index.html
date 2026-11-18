@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elements</title>
+  <script src="/preload.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <div>
+      <h1>Elements</h1>
+      <p id="summary" class="muted" aria-live="polite">Loading models…</p>
+    </div>
+    <button type="button" id="refresh" class="ghost" title="Reload the model list">Refresh</button>
+  </header>
+
+  <p id="error" class="error" role="alert" hidden></p>
+
+  <section class="table-wrap" aria-label="Periodic table of models">
+    <div id="grid" class="grid"></div>
+  </section>
+
+  <section id="synthetic-wrap" class="synthetic-wrap" aria-label="Models not named after an element" hidden>
+    <h3 class="muted small">Off the table</h3>
+    <div id="synthetic" class="synthetic"></div>
+  </section>
+
+  <ul class="legend muted small" aria-label="Legend">
+    <li><span class="sw lit"></span>Available</li>
+    <li><span class="sw locked"></span>Locked on your plan</li>
+    <li><span class="sw def"></span>Last used</li>
+    <li><span class="legend-mass">$10</span>Atomic mass = API output price per 1M tokens (or the intelligence score, if you weigh by intelligence)</li>
+    <li><span class="legend-star">★</span>Heaviest available model</li>
+  </ul>
+
+  <section id="detail" class="detail" aria-live="polite"></section>
+
+  <section id="leaderboard" class="leaderboard" aria-label="Models ranked by API price" hidden>
+    <div class="lb-head">
+      <h3>Heaviest elements</h3>
+      <div class="seg" role="group" aria-label="Weigh by">
+        <span class="muted small">Weigh by</span>
+        <button type="button" class="seg-btn on" data-weigh="price" aria-pressed="true">Price</button>
+        <button type="button" class="seg-btn" data-weigh="intel" aria-pressed="false" title="Needs an Artificial Analysis key">Intelligence</button>
+      </div>
+    </div>
+    <p id="price-source" class="muted small"></p>
+    <ol id="leaderboard-list" class="lb-list"></ol>
+    <div id="aa-box" class="aa-box"></div>
+  </section>
+
+</main>
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="/elements.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
