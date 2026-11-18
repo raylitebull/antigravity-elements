@@ -3,7 +3,7 @@
   "args": ["main.mjs"],
   "restart_policy": "always",
   "display_name": "Elements",
-  "description": "Pick an agent model from a periodic table of the live model list, weighed by API price or benchmark score, and start a chat in any project.",
+  "description": "Pick an agent model from a periodic table of the live model list, weighed by API price or benchmark score, and start a chat in any project, or in none.",
   "has_web_ui": true,
   "agent_permissions": {
     "allows_user_interactions": false

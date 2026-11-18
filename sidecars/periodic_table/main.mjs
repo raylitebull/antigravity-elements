@@ -317,10 +317,12 @@ app.api('/api/projects', async () => {
   if (projectCache && Date.now() - projectCache.at < 60000) return projectCache.body;
   try {
     const { projectIds = [] } = await lsCall('ListProjects');
-    const ids = projectIds.filter((id) => id && id !== 'default-cli-project');
+    const own = process.env.ANTIGRAVITY_PROJECT_ID;
+    const ids = projectIds.filter((id) => id && id !== 'default-cli-project' && id !== own);
     const { projects = [] } = ids.length ? await lsCall('ReadProjects', { ids }) : {};
     const list = projects
-      .filter((p) => p?.id && p.name)
+      // Antigravity gives each plugin sidecar its own "plugin/sidecar" project; those aren't yours.
+      .filter((p) => p?.id && p.name && !/^[\w.-]+\/[\w.-]+$/.test(p.name))
       .map((p) => {
         const uri = p.projectResources?.resources?.find((r) => r.folderUri)?.folderUri || '';
         let folder = '';
@@ -343,7 +345,18 @@ app.api('/api/start', async (data) => {
   if (!/^[a-z0-9.-]{2,80}$/.test(modelId)) return new Response(JSON.stringify({ error: 'Bad model id.' }), { status: 400, contentType: 'application/json' });
   if (data.projectId && !/^[A-Za-z0-9-]{1,80}$/.test(String(data.projectId))) return new Response(JSON.stringify({ error: 'Bad project id.' }), { status: 400, contentType: 'application/json' });
   try {
-    const result = app.startConversation(prompt, { model: modelId, projectId: data.projectId || undefined });
+    // The SDK copies process.env, which carries this sidecar's own project
+    // (shown as "elements/periodic_table"). Without a picked project, hide it
+    // for this synchronous call so the chat really starts outside any project.
+    const ownProject = process.env.ANTIGRAVITY_PROJECT_ID;
+    let result;
+    if (data.projectId && data.projectId !== ownProject) {
+      result = app.startConversation(prompt, { model: modelId, projectId: String(data.projectId) });
+    } else {
+      delete process.env.ANTIGRAVITY_PROJECT_ID;
+      try { result = app.startConversation(prompt, { model: modelId }); }
+      finally { if (ownProject !== undefined) process.env.ANTIGRAVITY_PROJECT_ID = ownProject; }
+    }
     return { ok: true, modelId, conversationId: findConversationId(result), result };
   } catch (err) {
     const detail = String(err.stderr || err.stdout || err.message || err).trim();
