@@ -77,6 +77,12 @@ Pick an isotope, type what you want done, hit **Start chat** (or Ctrl+Enter). El
 
 Clone it straight into Antigravity's plugin folder. The folder **must** be named `elements`:
 
+**Windows (Command Prompt)**
+
+```bat
+git clone https://github.com/raylitebull/antigravity-elements "%USERPROFILE%\.gemini\config\plugins\elements"
+```
+
 **Windows (PowerShell)**
 
 ```powershell
@@ -92,6 +98,8 @@ git clone https://github.com/raylitebull/antigravity-elements ~/.gemini/config/p
 You don't need to restart. Antigravity watches that folder and starts the plugin by itself. Then open **Elements** under **Extensions** in the left sidebar, or from the `+` menu in a conversation's header.
 
 To update, run `git pull` in that folder.
+
+> **Tip:** if `git clone` says the folder "already exists and is not empty", you already have a copy there. Delete or rename that `elements` folder first, then clone again.
 
 <a id="limits"></a>
 
