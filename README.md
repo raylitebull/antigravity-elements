@@ -69,7 +69,7 @@ Benchmark data © [Artificial Analysis](https://artificialanalysis.ai), shown wi
 
 ## 🧪 Reactions
 
-Pick an isotope, type what you want done, hit **Start chat** (or Ctrl+Enter). Elements starts a new Antigravity conversation pinned to that exact model, using Antigravity's own `agentapi`, and opens it.
+Pick an isotope, choose which **project** to start in (it defaults to the project of the chat you opened Elements from, and remembers your last pick), type what you want done, and hit **Start chat** (or Ctrl+Enter). Elements starts a new Antigravity conversation pinned to that exact model, using Antigravity's own `agentapi`, and opens it.
 
 <a id="install"></a>
 

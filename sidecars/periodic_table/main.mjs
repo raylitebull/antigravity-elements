@@ -310,11 +310,38 @@ app.api('/api/models', async () => {
   }
 }, 'GET');
 
+// Projects for the "start in" picker: ListProjects gives ids, ReadProjects
+// gives names and folders. Cached for a minute.
+let projectCache = null;
+app.api('/api/projects', async () => {
+  if (projectCache && Date.now() - projectCache.at < 60000) return projectCache.body;
+  try {
+    const { projectIds = [] } = await lsCall('ListProjects');
+    const ids = projectIds.filter((id) => id && id !== 'default-cli-project');
+    const { projects = [] } = ids.length ? await lsCall('ReadProjects', { ids }) : {};
+    const list = projects
+      .filter((p) => p?.id && p.name)
+      .map((p) => {
+        const uri = p.projectResources?.resources?.find((r) => r.folderUri)?.folderUri || '';
+        let folder = '';
+        try { folder = uri ? decodeURIComponent(new URL(uri).pathname).replace(/^\/([a-z]:)/i, '$1') : ''; } catch {}
+        return { id: p.id, name: p.name, folder };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+    const body = { projects: list };
+    projectCache = { at: Date.now(), body };
+    return body;
+  } catch (err) {
+    return new Response(JSON.stringify({ error: String(err.message || err), projects: [] }), { status: 502, contentType: 'application/json' });
+  }
+}, 'GET');
+
 app.api('/api/start', async (data) => {
   const prompt = String(data.prompt || '').trim();
   const modelId = String(data.modelId || '').trim();
   if (!prompt) return new Response(JSON.stringify({ error: 'Type what the new chat should do first.' }), { status: 400, contentType: 'application/json' });
   if (!/^[a-z0-9.-]{2,80}$/.test(modelId)) return new Response(JSON.stringify({ error: 'Bad model id.' }), { status: 400, contentType: 'application/json' });
+  if (data.projectId && !/^[A-Za-z0-9-]{1,80}$/.test(String(data.projectId))) return new Response(JSON.stringify({ error: 'Bad project id.' }), { status: 400, contentType: 'application/json' });
   try {
     const result = app.startConversation(prompt, { model: modelId, projectId: data.projectId || undefined });
     return { ok: true, modelId, conversationId: findConversationId(result), result };

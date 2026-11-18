@@ -326,7 +326,13 @@
       </div>
       ${desc ? `<p class="d-desc">${escapeHTML(desc)}</p>` : ''}
       <div class="variants">${rows}</div>
-      <label class="prompt-label" for="prompt">New chat on ${sel ? `<strong>${escapeHTML(sel.label)}</strong>` : 'the selected model'}</label>
+      <div class="start-row">
+        <label class="prompt-label" for="prompt">New chat on ${sel ? `<strong>${escapeHTML(sel.label)}</strong>` : 'the selected model'}</label>
+        <label class="project-pick">
+          <span class="muted small">in</span>
+          <select id="project" aria-label="Project to start the chat in">${projectOptions()}</select>
+        </label>
+      </div>
       <textarea id="prompt" rows="3" placeholder="What should it work on?">${escapeHTML(state.draft || '')}</textarea>
       <div class="actions">
         <span class="muted small">${sel ? `model id <code>${escapeHTML(sel.modelId)}</code>` : 'Pick a variant above'}</span>
@@ -379,8 +385,9 @@
     }
     const draftEl = $('#prompt');
     if (draftEl) state.draft = draftEl.value;
-    // Don't rebuild the detail panel under someone who is typing in it.
-    if (document.activeElement === draftEl) renderTable();
+    // Don't rebuild the detail panel under someone who is typing in it or
+    // has the project list open.
+    if (document.activeElement === draftEl || document.activeElement?.id === 'project') renderTable();
     else render();
   }
 
@@ -400,6 +407,46 @@
     return projectIdPromise;
   }
 
+  // ---------- project picker ----------
+  // '' = the project of the chat this pane is open in (or none outside one).
+  try { state.project = localStorage.getItem('elements.project') || ''; } catch { state.project = ''; }
+  state.projects = [];
+  state.currentProjectId = '';
+
+  async function loadProjects() {
+    try {
+      const res = await fetch('/api/projects', { cache: 'no-store' });
+      const data = await res.json();
+      state.projects = Array.isArray(data.projects) ? data.projects : [];
+    } catch { state.projects = []; }
+    state.currentProjectId = await projectId();
+    // A remembered project that no longer exists falls back to the default.
+    if (state.project && !state.projects.some((p) => p.id === state.project)) state.project = '';
+    const sel = $('#project');
+    if (sel && document.activeElement !== sel) sel.innerHTML = projectOptions();
+  }
+
+  function projectOptions() {
+    const cur = state.projects.find((p) => p.id === state.currentProjectId);
+    const first = cur ? `This chat's project (${escapeHTML(cur.name)})` : 'No project';
+    const opts = [`<option value="" ${state.project === '' ? 'selected' : ''}>${first}</option>`];
+    for (const p of state.projects) {
+      if (cur && p.id === cur.id) continue;
+      opts.push(`<option value="${escapeHTML(p.id)}" ${state.project === p.id ? 'selected' : ''} title="${escapeHTML(p.folder)}">${escapeHTML(p.name)}</option>`);
+    }
+    return opts.join('');
+  }
+
+  async function chosenProjectId() {
+    return state.project || (await projectId());
+  }
+
+  document.addEventListener('change', (e) => {
+    if (e.target.id !== 'project') return;
+    state.project = e.target.value;
+    try { localStorage.setItem('elements.project', state.project); } catch {}
+  });
+
   async function start() {
     const fam = state.families.get(state.selectedKey);
     const v = fam?.variants.find((x) => x.label === state.selectedVariant);
@@ -414,7 +461,7 @@
       const res = await f('/api/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, modelId: v.modelId, projectId: await projectId() }),
+        body: JSON.stringify({ prompt, modelId: v.modelId, projectId: await chosenProjectId() }),
       });
       const data = await res.json();
       if (!res.ok || data.error) throw new Error(data.error || res.statusText);
@@ -525,7 +572,9 @@
     try { await load(); } finally { loading = false; }
   }
   refresh();
+  loadProjects();
   setInterval(() => { if (!document.hidden) refresh(); }, REFRESH_MS);
+  setInterval(() => { if (!document.hidden) loadProjects(); }, 60000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
   window.addEventListener('focus', refresh);
 })();
